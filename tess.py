@@ -108,16 +108,16 @@ class ZoteTess:
                     p3 = self.current_shape.pop(0)
                     triangles.append([p1, p2, p3])
             else:
-                print "Unknown tessellation style:", self.tess_style
+                print("Unknown tessellation style:", self.tess_style)
             self.tess_style = None
             self.current_shape = []
         
                     
         def cb_error(what):
-            print "error:", what
+            print("error:", what)
                         
         def cb_combine(c, v, weight):
-            print "combine:", c, v, weight, "(this will probably cause problems)"
+            print("combine:", c, v, weight, "(this will probably cause problems)")
             return (c[0], c[1], c[2])
 
         tess = gluNewTess()
@@ -160,7 +160,7 @@ def is_adjacent(a, b, span):
     lower = min(a, b)
     upper = max(a, b)
     diff = upper - lower
-    if diff is 1:
+    if diff == 1:
         ret = True
     elif lower is span[0] and upper is span[1]:
         ret = True
@@ -265,7 +265,7 @@ class Shape(object):
     def print_paths(self):
         for path in self.paths:
             for pt in path:
-                print str(pt[0]) + ", " + str(pt[1])
+                print(str(pt[0]) + ", " + str(pt[1]))
 
     def make_bound_tuples(self):
         """Returns a list of tuples. Each has the lower and upper inclusive
@@ -295,7 +295,7 @@ class DiskFile(Shape):
         try:
             infile = open(file_name)
         except:
-            print "Could not open file:", file_name
+            print("Could not open file:", file_namer)
             sys.exit()
         
         path = []
@@ -306,24 +306,24 @@ class DiskFile(Shape):
                     path = []
                 else:
                     tokens = line.split()
-                    if len(tokens) is 2:
+                    if len(tokens) == 2:
                         x = float(tokens[0])
                         y = float(tokens[1])
                         point = (x, y, 0)
                         path.append(point)
             except:
-                print "Error reading line from", file_name
-                print "Perhaps there's a syntax error?"
+                print("Error reading line from", file_name)
+                print("Perhaps there's a syntax error?")
                 sys.exit()
         self.paths.append(path)
 
 def print_triangles(label, triangles):
-    print label, "--", len(triangles), "triangles"
-    print "-----------"
-    print ""
+    print(label, "--", len(triangles), "triangles")
+    print("-----------")
+    print("")
     for t in triangles:
-        print t
-    print ""
+        print(t)
+    print("")
 
 def send_output(inputFile, outputFile, numPaths, triangles, output):
     output.write("# " + inputFile + " --> " + outputFile + ": " +
@@ -333,7 +333,7 @@ def send_output(inputFile, outputFile, numPaths, triangles, output):
         output.write(str(t) + "\n")
         
 def usage():
-    print __doc__
+    print(__doc__)
     
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -348,9 +348,9 @@ if __name__ == "__main__":
                 output = sys.stdout
                 fn = "Standard Output"
             send_output(sys.argv[1], fn, len(df.paths), triangles, output)
-        except Exception, e:
+        except Exception as e:
             print(traceback.format_exc())
-            print "Got exception while trying to read file", sys.argv[1]
+            print("Got exception while trying to read file", sys.argv[1])
             # usage()
     else:
         usage()
